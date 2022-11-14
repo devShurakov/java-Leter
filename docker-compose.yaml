@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13.7-alpine
+    volumes:
+      - /var/lib/postgresql/data/
+    ports:
+      - "6542:5432"
+    environment:
+      - POSTGRES_DB=later
+      - POSTGRES_USER=newLater
+      - POSTGRES_PASSWORD=newLater
+
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - db
+    environment:
+      - DB_NAME=later
+      - POSTGRES_USER=newLater
+      - POSTGRES_PASSWORD=newLater
+      - DB_HOST=db
+      - DB_PORT=5432
